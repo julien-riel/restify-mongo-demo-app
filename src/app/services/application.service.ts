@@ -3,9 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Application } from '../model/application';
 import { LazyLoadEvent } from 'primeng/primeng';
 
-
-
-
 @Injectable({
   providedIn: 'root'
 })
@@ -13,45 +10,34 @@ export class ApplicationService {
 
     constructor(private http: HttpClient) { }
 
-
     loadCarsLazy(event: LazyLoadEvent) {
-      console.log('Event')
+      console.log('Event', event);
       let queryString = `?offset=${event.first}&limit=${event.rows}`;
+
+      for (const filter of Object.keys(event.filters)) {
+        if (filter === 'global') {
+          queryString = queryString + `&${filter}=${event.filters[filter].value}`;
+        } else if (filter === 'assetId') {
+          queryString = queryString + `&fromAssetId=${event.filters[filter].value}`;
+        } else {
+          if (Array.isArray(event.filters[filter].value)) {
+            new Array(event.filters[filter].value).forEach( (item) => {
+              queryString = queryString + `&${filter}=${item}`;
+            });
+          } else {
+            queryString = queryString + `&${filter}=${event.filters[filter].value}`;
+          }
+        }
+      }
+
+
       if (event.sortField) {
         queryString = queryString + `&sort=${event.sortOrder === 1 ? '' : '-'}${event.sortField}`;
-»
       }
+
       return this.http.get<any>(`http://localhost:3000/applications/${queryString}`)
       .toPromise()
       .then(res => <Application[]>res.items)
-      .then(data => { return data; });
-  }
-
-    getCarsSmall() {
-    return this.http.get<any>('http://localhost:3000/applications/')
-      .toPromise()
-      .then(res => <Application[]>res.items)
-      .then(data => { return data; });
-    }
-
-    getCarsMedium() {
-    return this.http.get<any>('assets/showcase/data/cars-medium.json')
-      .toPromise()
-      .then(res => <Application[]>res.data)
-      .then(data => { return data; });
-    }
-
-    getCarsLarge() {
-    return this.http.get<any>('assets/showcase/data/cars-large.json')
-      .toPromise()
-      .then(res => <Application[]>res.data)
-      .then(data => { return data; });
-    }
-
-  getCarsHuge() {
-    return this.http.get<any>('assets/showcase/data/cars-huge.json')
-      .toPromise()
-      .then(res => <Application[]>res.data)
       .then(data => { return data; });
   }
 }

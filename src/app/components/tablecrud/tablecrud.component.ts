@@ -20,18 +20,28 @@ export class TablecrudComponent implements OnInit {
 
     cars: Application[];
 
+    statuses: any[];
     cols: any[];
+
+    yearTimeout: any;
 
     constructor(private carService: ApplicationService) { }
 
     ngOnInit() {
-        
+        this.statuses = [
+            { label: '', value: null },
+            { label: 'Soumise', value: 'submitted' },
+            { label: 'En Analyse', value: 'process' },
+            { label: 'Approuvé', value: 'approuved' },
+            { label: 'Fermé', value: 'closed' }
+        ];
 
         this.cols = [
             { field: 'id', header: 'id' },
             { field: 'plannedDate', header: 'plannedDate' },
             { field: 'firstName', header: 'firstName' },
-            { field: 'lastName', header: 'lastName' },
+            { field: 'assetId', header: 'assetId' },
+            { field: 'status', header: 'Status' },
         ];
     }
 
@@ -47,6 +57,8 @@ export class TablecrudComponent implements OnInit {
                         firstName: x.firstName,
                         lastName: x.lastName,
                         plannedDate: x.plannedDate,
+                        assetId: x.assetId,
+                        status: x.status,
                         audit: {
                             createdBy: '234567890!!!'
                         }
@@ -55,9 +67,18 @@ export class TablecrudComponent implements OnInit {
             );
             this.cars = cars;
         });
+    }
 
+    
 
-        // this.carService.loadCarsLazy(event);
+    onAssetIdChange(event, dt) {
+        if (this.yearTimeout) {
+            clearTimeout(this.yearTimeout);
+        }
+
+        this.yearTimeout = setTimeout(() => {
+            dt.filter(event.value, 'assetId', 'gt');
+        }, 250);
     }
 
     showDialogToAdd() {

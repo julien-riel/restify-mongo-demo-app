@@ -1,9 +1,15 @@
 
 <!-- https://stackoverflow.com/questions/45594195/primeng-datatable-server-side-paging -->
 
-<p-table [columns]="cols" [value]="cars" [lazy]="true" (onLazyLoad)="loadCarsLazy($event)" selectionMode="single" [totalRecords]="500" [(selection)]="selectedCar" (onRowSelect)="onRowSelect($event)" [paginator]="true" [rows]="25">
+<p-table #dt [columns]="cols" [value]="cars" [lazy]="true" (onLazyLoad)="loadCarsLazy($event)" selectionMode="single" [totalRecords]="500" [(selection)]="selectedCar" (onRowSelect)="onRowSelect($event)" [paginator]="true" [rows]="25">
   <ng-template pTemplate="caption">
       Demandes
+  </ng-template>
+  <ng-template pTemplate="caption">
+    <div style="text-align: right">        
+        <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+        <input type="text" pInputText size="50" placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+    </div>
   </ng-template>
   <ng-template pTemplate="header" let-columns>
       <tr>
@@ -12,6 +18,19 @@
               <p-sortIcon [field]="col.field"></p-sortIcon>
           </th>
       </tr>
+      <tr>
+        <th *ngFor="let col of columns" [ngSwitch]="col.field">
+            <input *ngSwitchCase="'id'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
+            <input *ngSwitchCase="'firstName'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
+            <div *ngSwitchCase="'assetId'">
+                Value < {{yearFilter}}
+                <i class="fa fa-close" (click)="yearFilter=null;dt.filter(null, col.field, col.filterMatchMode)" style="cursor:pointer" *ngIf="yearFilter"></i>
+                <p-slider [style]="{'width':'100%','margin-top':'8px'}" [(ngModel)]="yearFilter" [min]="10000" [max]="80000" (onChange)="onAssetIdChange($event, dt)"></p-slider>
+            </div>
+            <!-- <p-dropdown *ngSwitchCase="'brand'" [options]="brands" [style]="{'width':'100%'}" (onChange)="dt.filter($event.value, col.field, 'equals')"></p-dropdown> -->
+            <p-multiSelect *ngSwitchCase="'status'" [options]="statuses" defaultLabel="Status" (onChange)="dt.filter($event.value, col.field, 'in')"></p-multiSelect>
+        </th>
+    </tr>
   </ng-template>
   <ng-template pTemplate="body" let-rowData let-columns="columns">
       <tr [pSelectableRow]="rowData">

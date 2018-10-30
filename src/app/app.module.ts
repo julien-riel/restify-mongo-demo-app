@@ -11,12 +11,14 @@ import {EditorModule} from 'primeng/editor';
 import {ToggleButtonModule} from 'primeng/togglebutton';
 import {ChipsModule} from 'primeng/chips';
 import {SpinnerModule} from 'primeng/spinner';
-import {MultiSelectModule} from 'primeng/multiselect';
 
 // Début des import utiliser pour primeng
 import {TableModule} from 'primeng/table';
 import {DialogModule} from 'primeng/dialog';
 // Fin des import utiliser pour primeng
+import {SliderModule} from 'primeng/slider';
+import {MultiSelectModule} from 'primeng/multiselect';
+import {DropdownModule} from 'primeng/dropdown';
 
 // import {MultiSelectModule} from 'primeng/multiselect';
 
@@ -52,7 +54,10 @@ import { TablecrudComponent } from './components/tablecrud/tablecrud.component';
     RadioButtonModule,
     TableModule,
     DialogModule,
-    HttpClientModule
+    HttpClientModule,
+    SliderModule,
+    MultiSelectModule,
+    DropdownModule
   ],
   providers: [],
   bootstrap: [AppComponent]
