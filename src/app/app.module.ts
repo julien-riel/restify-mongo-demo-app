@@ -36,8 +36,6 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { TablecrudComponent } from './components/tablecrud/tablecrud.component';
 
-
-
 import {
   MatButtonModule, MatCardModule, MatCheckboxModule, MatIconModule,
   MatMenuModule, MatSelectModule, MatToolbarModule
@@ -45,7 +43,23 @@ import {
 
  
 import {  NoFrameworkModule, MaterialDesignFrameworkModule } from 'angular6-json-schema-form';
+import { RouterModule, Routes } from '@angular/router';
  
+
+const appRoutes: Routes = [
+  { path: 'crisis-center', component: TablecrudComponent },
+  { path: 'hero/:id',      component: TablecrudComponent },
+  {
+    path: 'heroes',
+    component: TablecrudComponent,
+    data: { title: 'Heroes List' }
+  },
+  { path: '',
+    redirectTo: '/heroes',
+    pathMatch: 'full'
+  },
+  { path: '**', component: TablecrudComponent }
+];
 
 @NgModule({
   declarations: [
@@ -53,8 +67,10 @@ import {  NoFrameworkModule, MaterialDesignFrameworkModule } from 'angular6-json
     TablecrudComponent
   ],
   imports: [
-    MatButtonModule, MatCardModule, MatCheckboxModule,
-    MatIconModule, MatMenuModule, MatSelectModule, MatToolbarModule,
+    RouterModule.forRoot(
+      appRoutes,
+      { enableTracing: false } // <-- debugging purposes only
+    ),
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
@@ -70,8 +86,12 @@ import {  NoFrameworkModule, MaterialDesignFrameworkModule } from 'angular6-json
     SliderModule,
     MultiSelectModule,
     DropdownModule,
+    // JSON Schema Form
     MaterialDesignFrameworkModule,
-    NoFrameworkModule
+    NoFrameworkModule,
+    // Material
+    MatButtonModule, MatCardModule, MatCheckboxModule,
+    MatIconModule, MatMenuModule, MatSelectModule, MatToolbarModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
