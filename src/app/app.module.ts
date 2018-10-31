@@ -37,12 +37,24 @@ import { AppComponent } from './app.component';
 import { TablecrudComponent } from './components/tablecrud/tablecrud.component';
 
 
+
+import {
+  MatButtonModule, MatCardModule, MatCheckboxModule, MatIconModule,
+  MatMenuModule, MatSelectModule, MatToolbarModule
+} from '@angular/material';
+
+ 
+import {  NoFrameworkModule, MaterialDesignFrameworkModule } from 'angular6-json-schema-form';
+ 
+
 @NgModule({
   declarations: [
     AppComponent,
-    TablecrudComponent,
+    TablecrudComponent
   ],
   imports: [
+    MatButtonModule, MatCardModule, MatCheckboxModule,
+    MatIconModule, MatMenuModule, MatSelectModule, MatToolbarModule,
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
@@ -57,7 +69,9 @@ import { TablecrudComponent } from './components/tablecrud/tablecrud.component';
     HttpClientModule,
     SliderModule,
     MultiSelectModule,
-    DropdownModule
+    DropdownModule,
+    MaterialDesignFrameworkModule,
+    NoFrameworkModule
   ],
   providers: [],
   bootstrap: [AppComponent]

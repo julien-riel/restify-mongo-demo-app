@@ -15,13 +15,14 @@ export class ApplicationService {
       let queryString = `?offset=${event.first}&limit=${event.rows}`;
 
       for (const filter of Object.keys(event.filters)) {
+
         if (filter === 'global') {
-          queryString = queryString + `&${filter}=${event.filters[filter].value}`;
+          queryString = queryString + `&q=${event.filters[filter].value}`;
         } else if (filter === 'assetId') {
           queryString = queryString + `&fromAssetId=${event.filters[filter].value}`;
         } else {
           if (Array.isArray(event.filters[filter].value)) {
-            new Array(event.filters[filter].value).forEach( (item) => {
+            event.filters[filter].value.forEach( (item) => {
               queryString = queryString + `&${filter}=${item}`;
             });
           } else {

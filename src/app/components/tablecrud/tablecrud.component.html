@@ -1,5 +1,6 @@
 
 <!-- https://stackoverflow.com/questions/45594195/primeng-datatable-server-side-paging -->
+<h1>Demandes de choses</h1>
 
 <p-table #dt [columns]="cols" [value]="cars" [lazy]="true" (onLazyLoad)="loadCarsLazy($event)" selectionMode="single" [totalRecords]="500" [(selection)]="selectedCar" (onRowSelect)="onRowSelect($event)" [paginator]="true" [rows]="25">
   <ng-template pTemplate="caption">
@@ -47,44 +48,21 @@
 </p-table>
 
 <p-dialog header="Car Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" [width]="300">
-  <div class="ui-g ui-fluid" *ngIf="car">
-      <div class="ui-g-12">
-          <div class="ui-g-4">
-              <label for="vin">Vin</label>
-          </div>
-          <div class="ui-g-8">
-              <input pInputText id="vin" [(ngModel)]="car.vin" />
-          </div>
-      </div>
-      <div class="ui-g-12">
-          <div class="ui-g-4">
-              <label for="year">Year</label>
-          </div>
-          <div class="ui-g-8">
-              <input pInputText id="year" [(ngModel)]="car.year" />
-          </div>
-      </div>
-      <div class="ui-g-12">
-          <div class="ui-g-4">
-              <label for="brand">Brand</label>
-          </div>
-          <div class="ui-g-8">
-              <input pInputText id="brand" [(ngModel)]="car.brand" />
-          </div>
-      </div>
-      <div class="ui-g-12">
-          <div class="ui-g-4">
-              <label for="color">Color</label>
-          </div>
-          <div class="ui-g-8">
-              <input pInputText id="color" [(ngModel)]="car.color" />
-          </div>
-      </div>
+
+  <div class="ui-g ui-fluid">
+    <json-schema-form
+        loadExternalAssets="true"
+        [schema]="jsonSchema"
+        framework="material-design"
+        [data]=this.selectedCar>
+    </json-schema-form>
   </div>
-  <p-footer>
+
+  <!-- <p-footer>
       <div class="ui-dialog-buttonpane ui-helper-clearfix">
           <button type="button" pButton icon="fa fa-close" (click)="delete()" label="Delete"></button>
           <button type="button" pButton icon="fa fa-check" (click)="save()" label="Save"></button>
       </div>
-  </p-footer>
+  </p-footer> -->
 </p-dialog>
+
