@@ -44,27 +44,31 @@ import {
  
 import {  NoFrameworkModule, MaterialDesignFrameworkModule } from 'angular6-json-schema-form';
 import { RouterModule, Routes } from '@angular/router';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { ApplicationFormComponent } from './components/application-form/application-form.component';
  
 
 const appRoutes: Routes = [
-  { path: 'crisis-center', component: TablecrudComponent },
-  { path: 'hero/:id',      component: TablecrudComponent },
+  { path: 'form', component: ApplicationFormComponent },
+  { path: 'form/:id',      component: ApplicationFormComponent },
   {
-    path: 'heroes',
+    path: 'list',
     component: TablecrudComponent,
     data: { title: 'Heroes List' }
   },
   { path: '',
-    redirectTo: '/heroes',
+    redirectTo: '/list',
     pathMatch: 'full'
   },
-  { path: '**', component: TablecrudComponent }
+  { path: '**', component: PageNotFoundComponent }
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
-    TablecrudComponent
+    TablecrudComponent,
+    PageNotFoundComponent,
+    ApplicationFormComponent
   ],
   imports: [
     RouterModule.forRoot(
